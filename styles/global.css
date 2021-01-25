@@ -25,3 +25,60 @@ img {
   max-width: 100%;
   display: block;
 }
+
+.syntax-table {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  margin: 20px 0;
+}
+
+.syntax-table .terminal {
+  font-family: monospace;
+  padding: 0 3px;
+  background-color: azure;
+}
+
+.syntax-table .nonterminal {
+  font-style: italic;
+  padding: 0 2px;
+}
+
+
+.syntax-table .left {
+  text-align: right;
+}
+
+.syntax-table .left .opr {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.syntax-table .right {
+  text-align: left;
+}
+
+.syntax-table .right .alt {
+  display: block;
+  margin-left: -24px;
+  position: relative;
+}
+
+.syntax-table .right .alt .note {
+  display: inline-block;
+  text-align: right;
+  position: absolute;
+  right: 0;
+}
+
+.syntax-table .right .alt:first-child {
+  margin-left: 0;
+}
+
+.syntax-table .alt:first-child .vb:first-child {
+  display: none;
+}
+
+.syntax-table .alt .vb {
+  padding: 0 10px;
+}
+
