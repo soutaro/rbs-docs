@@ -4,24 +4,22 @@ import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
 import * as React from "react"
 
-const name = 'Soutaro Matsumoto'
-export const siteTitle = 'Next.js Sample Website'
+const name = 'RBS'
+export const siteTitle = 'RBS: Type signature for Ruby programs'
+const metaContent = "Type signature for Ruby programs. Learn how to use a new feature of Ruby 3."
 
 const Layout: React.FC<React.PropsWithChildren<{ home: boolean }>> = ({ children, home }) => {
   return (
     <div className={styles.container}>
       <Head>
         <link rel="icon" href="/favicon.ico" />
-        <meta
-          name="description"
-          content="Learn how to build a personal website using Next.js"
-        />
-        <meta
+        <meta name="description" content={metaContent} />
+        {/* <meta
           property="og:image"
           content={`https://og-image.now.sh/${encodeURI(
             siteTitle
           )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.zeit.co%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
-        />
+        /> */}
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

@@ -1,5 +1,5 @@
 import Layout from '../../components/layout'
-import { getAllPostIds, getPostData, PostData } from '../../lib/posts'
+import { getAllPostIds, getPostData, PostData } from '../../lib/docs'
 import Head from 'next/head'
 import Date from '../../components/date'
 import utilStyles from '../../styles/utils.module.css'
@@ -9,16 +9,18 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 const setupLinkClick: (router: Router) => ((node: HTMLDivElement | undefined) => void) = (router) => {
   return (node) => {
     if (node) {
-      node.querySelectorAll("a[href^='/']").forEach(node => {
-        const url = node["href"]
-        node.addEventListener("click", (event: any) => {
-          if (event.button === 0) {
-            if (!event.altKey && !event.metaKey && !event.ctrlKey && !event.shiftKey) {
-              event.preventDefault()
-              router.push(url)
+      node.querySelectorAll("a[href]").forEach(node => {
+        const url: string = node.getAttribute("href")
+        if (!/:\/\//.test(url)) {
+          node.addEventListener("click", (event: any) => {
+            if (event.button === 0) {
+              if (!event.altKey && !event.metaKey && !event.ctrlKey && !event.shiftKey) {
+                event.preventDefault()
+                router.push(url)
+              }
             }
+          })
           }
-        })
       })
     }
   }
