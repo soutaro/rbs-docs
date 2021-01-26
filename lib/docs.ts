@@ -6,45 +6,27 @@ import html from 'remark-html'
 
 const postsDirectory = path.join(process.cwd(), 'docs')
 
-export interface PostMetaData {
+export interface DocData {
   readonly id: string
-  readonly date: string
   readonly title: string
-}
-
-export interface PostData extends PostMetaData {
+  readonly abstract: string | null
   readonly contentHtml: string
 }
 
-export function getSortedPostsData(): PostMetaData[] {
-  // Get file names under /posts
+export type DocIndex = { [id: string]: DocData }
+
+export async function getDocIndex(): Promise<DocIndex> {
+  const index: DocIndex = {}
+
   const fileNames = fs.readdirSync(postsDirectory)
-  const allPostsData = fileNames.map(fileName => {
-    // Remove ".md" from file name to get id
+
+  for (const fileName of fileNames) {
     const id = fileName.replace(/\.md$/, '')
+    const post = await getPostData(id)
+    index[id] = post
+  }
 
-    // Read markdown file as string
-    const fullPath = path.join(postsDirectory, fileName)
-    const fileContents = fs.readFileSync(fullPath, 'utf8')
-
-    // Use gray-matter to parse the post metadata section
-    const matterResult = matter(fileContents)
-
-    // Combine the data with the id
-    return {
-      id,
-      title: matterResult.data["title"],
-      date: matterResult.data["date"]
-    }
-  })
-  // Sort posts by date
-  return allPostsData.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1
-    } else {
-      return -1
-    }
-  })
+  return index
 }
 
 export function getAllPostIds(): { readonly params: { readonly id: string } }[] {
@@ -58,7 +40,7 @@ export function getAllPostIds(): { readonly params: { readonly id: string } }[] 
   })
 }
 
-export async function getPostData(id: string): Promise<PostData> {
+export async function getPostData(id: string): Promise<DocData> {
   const fullPath = path.join(postsDirectory, `${id}.md`)
   const fileContents = fs.readFileSync(fullPath, 'utf8')
 
@@ -76,6 +58,6 @@ export async function getPostData(id: string): Promise<PostData> {
     id,
     contentHtml,
     title: matterResult.data["title"],
-    date: matterResult.data["date"]
+    abstract: matterResult.data["abstract"] || null
   }
 }

@@ -1,5 +1,5 @@
 import Layout from '../../components/layout'
-import { getAllPostIds, getPostData, PostData } from '../../lib/docs'
+import { getAllPostIds, getPostData, DocData } from '../../lib/docs'
 import Head from 'next/head'
 import Date from '../../components/date'
 import utilStyles from '../../styles/utils.module.css'
@@ -27,7 +27,7 @@ const setupLinkClick: (router: Router) => ((node: HTMLDivElement | undefined) =>
 }
 
 interface Props {
-  readonly postData: PostData
+  readonly postData: DocData
 }
 
 const Post: React.FC<Props & { readonly router: Router }> = ({ postData, router }) => {
