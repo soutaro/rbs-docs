@@ -82,3 +82,8 @@ img {
   padding: 0 10px;
 }
 
+.regexp {
+  font-family: monospace;
+  padding: 0 3px;
+  background-color: lemonchiffon;
+}

@@ -60,6 +60,7 @@ const Bool = tag(<Terminal>bool</Terminal>)
 const Namespace = tag(<NonTerminal>namespace</NonTerminal>)
 const CapitalIdent = tag(<NonTerminal>capital-ident</NonTerminal>)
 const LowercaseIdent = tag(<NonTerminal>lowercase-ident</NonTerminal>)
+const InterfaceIdent = NT("interface-ident")
 
 const Empty: React.FC<{}> = props => {
   return <span style={{ color: "#AAA" }}>∅</span>
@@ -67,6 +68,10 @@ const Empty: React.FC<{}> = props => {
 
 const Table: React.FC<{ children: ReactNode}> = props => {
   return <div className="syntax-table">{props.children}</div>
+}
+
+const Regexp: React.FC<{ children: ReactNode }> = props => {
+  return <span className="regexp">/{props.children}/</span>
 }
 
 const Row: React.FC<{ children: ReactNode, lhs: ReactNode }> = props => {
@@ -201,7 +206,7 @@ const Syntax: React.FC<{}> = () => {
         </Row>
         <Row lhs={<InterfaceName/>}>
           <A>
-            <Namespace/> <Terminal>_</Terminal> <CapitalIdent/>
+            <Namespace/> <InterfaceIdent/>
           </A>
         </Row>
         <Row lhs={<AliasName/>}>
@@ -297,40 +302,38 @@ const Syntax: React.FC<{}> = () => {
 
       <Table>
         <Row lhs={<CapitalIdent />}>
-          <A><code>/[A-Z]\w*/</code></A>
+          <A><Regexp>[A-Z]\w*</Regexp></A>
         </Row>
         <Row lhs={<LowercaseIdent />}>
           <A>
-            <code>/[a-z]\w*/</code>
+            <Regexp>[a-z]\w*</Regexp>
+          </A>
+        </Row>
+        <Row lhs={<InterfaceIdent />}>
+          <A>
+            <Regexp>_[A-Z]\w*</Regexp>
           </A>
         </Row>
         <Row lhs={<StringLiteral />}>
           <A>
-            <Terminal>"</Terminal>
-            letters
-            <Terminal>"</Terminal>
+            <Regexp>"[^"]*"</Regexp>
             <VB />
-            <Terminal>'</Terminal>
-            letters
-            <Terminal>'</Terminal>
+            <Regexp>'[^']*'</Regexp>
           </A>
         </Row>
         <Row lhs={<IntegerLiteral />}>
           <A>
-            <code>/[+-]?\d[\d_]*/</code>
+            <Regexp>[+-]?\d[\d_]*</Regexp>
           </A>
         </Row>
         <Row lhs={<SymbolLiteral />}>
           <A>
-            <Terminal>:</Terminal>
-            letters
+            <Regexp>:\w+</Regexp>
           </A>
         </Row>
         <Row lhs={<QuotedIdent />}>
           <A>
-            <Terminal>`</Terminal>
-            any letters
-            <Terminal>`</Terminal>
+            <Regexp>`[^`]`</Regexp>
           </A>
         </Row>
       </Table>
